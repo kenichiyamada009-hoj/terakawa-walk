@@ -108,7 +108,7 @@ function createIcon() {
     className: 'leaflet-div-icon-tera',
     html: `<div class="tera-char" id="tera-icon">
       <div class="tera-face">
-        <img src="assets/face.jpg" alt="テラ川">
+        <img src="assets/face.png" alt="テラ川">
       </div>
       <div class="tera-body-row">
         <div class="arm arm-l"></div>
