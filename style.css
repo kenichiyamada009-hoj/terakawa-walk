@@ -87,32 +87,156 @@ body {
 
 .speech-bubble.visible { opacity: 1; }
 
-/* ===== DQ STYLE CHARACTER SPRITE ===== */
+/* ===== CSS PIXEL ART CHARACTER ===== */
 .tera-char {
   display: flex;
   flex-direction: column;
   align-items: center;
   transform-origin: bottom center;
-  filter: drop-shadow(3px 6px 4px rgba(0,0,0,0.7));
+  filter: drop-shadow(2px 5px 5px rgba(0,0,0,0.9));
 }
 
-.tera-sprite {
-  width: 80px;
-  height: auto;
-  display: block;
-  image-rendering: auto;
+/* HEAD */
+.c-head {
+  position: relative;
+  width: 34px;
+  height: 34px;
+  flex-shrink: 0;
+}
+
+.c-hair {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 15px;
+  background: #1c1208;
+  border: 2px solid #080400;
+}
+
+.c-face {
+  position: absolute;
+  bottom: 0; left: 2px; right: 2px;
+  height: 21px;
+  background: #f0c090;
+  border: 2px solid #080400;
+  border-top: none;
+}
+
+/* Ears */
+.c-face::before,
+.c-face::after {
+  content: '';
+  position: absolute;
+  top: 3px;
+  width: 5px;
+  height: 7px;
+  background: #f0c090;
+  border: 2px solid #080400;
+}
+.c-face::before { left: -6px; }
+.c-face::after  { right: -6px; }
+
+/* Eyes */
+.c-eyes {
+  position: absolute;
+  top: 7px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 18px;
+  height: 3px;
+  background: transparent;
+  box-shadow: -5px 0 0 3px #402010, 5px 0 0 3px #402010;
+}
+
+/* MIDDLE (arms + torso) */
+.c-mid {
+  display: flex;
+  align-items: flex-start;
+  margin-top: 1px;
+}
+
+.c-torso {
+  width: 20px;
+  height: 22px;
+  background: #d4c080;
+  border: 2px solid #080400;
+  position: relative;
+  z-index: 1;
+}
+
+/* Belt */
+.c-torso::after {
+  content: '';
+  position: absolute;
+  bottom: 4px;
+  left: -2px; right: -2px;
+  height: 5px;
+  background: #8b4513;
+  border-top: 2px solid #080400;
+  border-bottom: 2px solid #080400;
+}
+
+.c-arm {
+  width: 8px;
+  height: 20px;
+  background: #d4c080;
+  border: 2px solid #080400;
+  transform-origin: top center;
+  flex-shrink: 0;
+}
+
+/* LEGS */
+.c-legs {
+  display: flex;
+  gap: 2px;
+  margin-top: 1px;
+}
+
+.c-leg {
+  width: 9px;
+  height: 14px;
+  background: #b8a060;
+  border: 2px solid #080400;
+  transform-origin: top center;
+  position: relative;
+}
+
+.c-boot {
+  position: absolute;
+  bottom: -7px;
+  left: -2px;
+  width: 13px;
+  height: 8px;
+  background: #6b3820;
+  border: 2px solid #080400;
 }
 
 /* ===== WALK ===== */
-@keyframes sprite-walk {
-  0%         { transform: translateY(0px)  rotate(-2deg) scaleX(1); }
-  25%        { transform: translateY(-5px) rotate(0deg)  scaleX(1); }
-  50%        { transform: translateY(0px)  rotate(2deg)  scaleX(1); }
-  75%        { transform: translateY(-5px) rotate(0deg)  scaleX(1); }
-  100%       { transform: translateY(0px)  rotate(-2deg) scaleX(1); }
+@keyframes c-body-walk {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-4px); }
+}
+@keyframes c-arm-l-walk {
+  0%, 100% { transform: rotate(-28deg); }
+  50%       { transform: rotate(28deg); }
+}
+@keyframes c-arm-r-walk {
+  0%, 100% { transform: rotate(28deg); }
+  50%       { transform: rotate(-28deg); }
+}
+@keyframes c-leg-l-walk {
+  0%, 100% { transform: rotate(-18deg); }
+  50%       { transform: rotate(18deg); }
+}
+@keyframes c-leg-r-walk {
+  0%, 100% { transform: rotate(18deg); }
+  50%       { transform: rotate(-18deg); }
 }
 
-.tera-char.walking { animation: sprite-walk 0.5s steps(4) infinite; }
+.tera-char.walking         { animation: c-body-walk  0.4s steps(2) infinite; }
+.tera-char.walking .c-arm-l { animation: c-arm-l-walk 0.4s steps(2) infinite; }
+.tera-char.walking .c-arm-r { animation: c-arm-r-walk 0.4s steps(2) infinite; }
+.tera-char.walking .c-leg-l { animation: c-leg-l-walk 0.4s steps(2) infinite; }
+.tera-char.walking .c-leg-r { animation: c-leg-r-walk 0.4s steps(2) infinite; }
 
 /* ===== FALL ===== */
 @keyframes sprite-fall {
@@ -123,7 +247,6 @@ body {
   92%  { transform: rotate(8deg)  translateX(2px); }
   100% { transform: rotate(0deg)  translateX(0px); }
 }
-
 .tera-char.falling { animation: sprite-fall 2.5s steps(8) forwards; }
 
 /* ===== DANCE ===== */
@@ -136,7 +259,6 @@ body {
   75%  { transform: translateY(-10px) scale(1.1)  rotate(5deg); }
   100% { transform: translateY(0px)   scale(1)    rotate(0deg); }
 }
-
 .tera-char.dancing { animation: sprite-dance 0.5s steps(4) 6; }
 
 /* GPS BADGE */
