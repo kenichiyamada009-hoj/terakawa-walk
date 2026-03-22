@@ -1,0 +1,315 @@
+:root {
+  --bg: #faf5ff;
+  --surface: #f3ecff;
+  --card: #ffffff;
+  --accent: #c084fc;
+  --accent2: #a855f7;
+  --text: #3b0764;
+  --muted: #9880c0;
+  --border: rgba(192, 132, 252, 0.25);
+  --nav-h: 62px;
+  --header-h: 50px;
+  --bar-h: 58px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  height: 100vh;
+  overflow: hidden;
+}
+
+#app {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+/* HEADER */
+.app-header {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 0 16px;
+  height: var(--header-h);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+
+.app-header h1 {
+  font-size: 15px;
+  color: var(--accent2);
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.gps-status {
+  font-size: 11px;
+  color: var(--muted);
+}
+
+/* PAGES */
+.page { display: none; flex: 1; overflow: hidden; position: relative; min-height: 0; }
+.page.active { display: flex; flex-direction: column; }
+
+/* MAP */
+#map {
+  flex: 1;
+  z-index: 1;
+  min-height: 0;
+}
+
+/* SPEECH BUBBLE */
+.speech-bubble {
+  position: absolute;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: white;
+  border: 2px solid var(--accent);
+  border-radius: 20px;
+  padding: 9px 18px;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+  z-index: 1000;
+  white-space: nowrap;
+  box-shadow: 0 4px 16px rgba(168, 85, 247, 0.25);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.speech-bubble::after {
+  content: '';
+  position: absolute;
+  bottom: -9px;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top-color: var(--accent);
+}
+
+.speech-bubble.visible { opacity: 1; }
+
+/* STATS BAR */
+.stats-bar {
+  display: flex;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  height: var(--bar-h);
+  flex-shrink: 0;
+}
+
+.stat-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+}
+
+.stat-val {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--accent2);
+}
+
+.stat-lbl {
+  font-size: 10px;
+  color: var(--muted);
+}
+
+/* TERAKAWA CHARACTER ICON */
+.tera-icon-wrap {
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid var(--accent);
+  box-shadow: 0 2px 10px rgba(168, 85, 247, 0.45);
+  background: white;
+  cursor: pointer;
+}
+
+.tera-icon-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+}
+
+/* Walking animation */
+@keyframes walk {
+  0%, 100% { transform: rotate(-4deg) translateY(0); }
+  50%       { transform: rotate(4deg) translateY(-2px); }
+}
+
+/* Fall animation */
+@keyframes fall {
+  0%   { transform: rotate(0deg); }
+  20%  { transform: rotate(45deg); }
+  40%  { transform: rotate(90deg) translateY(4px); }
+  70%  { transform: rotate(90deg) translateY(4px); }
+  90%  { transform: rotate(10deg); }
+  100% { transform: rotate(0deg); }
+}
+
+/* Dance animation */
+@keyframes dance {
+  0%   { transform: rotate(0deg) scale(1); }
+  25%  { transform: rotate(90deg) scale(1.25); }
+  50%  { transform: rotate(180deg) scale(1); }
+  75%  { transform: rotate(270deg) scale(1.25); }
+  100% { transform: rotate(360deg) scale(1); }
+}
+
+.tera-icon-wrap.walking {
+  animation: walk 0.55s ease-in-out infinite;
+}
+
+.tera-icon-wrap.falling {
+  animation: fall 2.2s ease-in-out forwards;
+}
+
+.tera-icon-wrap.dancing {
+  animation: dance 0.75s ease-in-out 4;
+}
+
+/* STATS PAGE */
+.stats-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  padding-bottom: 80px;
+}
+
+.level-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 18px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(192, 132, 252, 0.1);
+}
+
+.avatar-circle {
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid var(--accent);
+  flex-shrink: 0;
+}
+
+.avatar-circle img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+}
+
+.level-info { flex: 1; }
+
+.level-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--accent2);
+  margin-bottom: 10px;
+}
+
+.level-bar-wrap {
+  background: var(--surface);
+  border-radius: 999px;
+  height: 8px;
+  overflow: hidden;
+}
+
+.level-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), #e879f9);
+  border-radius: 999px;
+  transition: width 0.6s ease;
+}
+
+.section-title {
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 10px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.stat-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px;
+  text-align: center;
+  box-shadow: 0 1px 4px rgba(192, 132, 252, 0.08);
+}
+
+.stat-label {
+  display: block;
+  font-size: 11px;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+
+.stat-value {
+  display: block;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+/* BOTTOM NAV */
+.bottom-nav {
+  display: flex;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  height: var(--nav-h);
+  flex-shrink: 0;
+}
+
+.nav-btn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  color: var(--muted);
+  cursor: pointer;
+  gap: 3px;
+  transition: color 0.2s;
+}
+
+.nav-btn.active { color: var(--accent2); font-weight: 700; }
+.nav-icon { font-size: 22px; }
+.nav-label { font-size: 10px; }
+
+/* LEAFLET overrides */
+.leaflet-div-icon-tera {
+  background: none !important;
+  border: none !important;
+}

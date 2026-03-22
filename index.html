@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#faf5ff">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>テラ川お散歩MAP</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="app">
+    <header class="app-header">
+      <h1>テラ川お散歩MAP</h1>
+      <div id="gps-status" class="gps-status">GPS待機中...</div>
+    </header>
+
+    <!-- MAP PAGE -->
+    <section class="page active" id="page-map">
+      <div id="map"></div>
+      <div id="speech-bubble" class="speech-bubble"></div>
+      <div class="stats-bar">
+        <div class="stat-item">
+          <span class="stat-val" id="bar-distance">0m</span>
+          <span class="stat-lbl">距離</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-val" id="bar-steps">0</span>
+          <span class="stat-lbl">歩数</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-val" id="bar-time">00:00</span>
+          <span class="stat-lbl">歩行時間</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- STATS PAGE -->
+    <section class="page" id="page-stats">
+      <div class="stats-content">
+        <div class="level-card">
+          <div class="avatar-circle">
+            <img src="assets/terakawa.webp" alt="テラ川">
+          </div>
+          <div class="level-info">
+            <div id="level-title" class="level-title">テラ川見習い</div>
+            <div class="level-bar-wrap">
+              <div id="level-bar" class="level-bar" style="width:0%"></div>
+            </div>
+          </div>
+        </div>
+
+        <h3 class="section-title">今日の記録</h3>
+        <div class="stats-grid">
+          <div class="stat-card">
+            <span class="stat-label">歩数</span>
+            <span class="stat-value" id="s-steps">0</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-label">距離</span>
+            <span class="stat-value" id="s-distance">0m</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-label">歩行時間</span>
+            <span class="stat-value" id="s-time">0分</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-label">消費カロリー</span>
+            <span class="stat-value" id="s-cal">0kcal</span>
+          </div>
+        </div>
+
+        <h3 class="section-title">累計記録</h3>
+        <div class="stats-grid">
+          <div class="stat-card">
+            <span class="stat-label">総歩数</span>
+            <span class="stat-value" id="s-total-steps">0</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-label">総距離</span>
+            <span class="stat-value" id="s-total-dist">0m</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <nav class="bottom-nav">
+      <button class="nav-btn active" data-page="map">
+        <span class="nav-icon">&#9716;</span>
+        <span class="nav-label">マップ</span>
+      </button>
+      <button class="nav-btn" data-page="stats">
+        <span class="nav-icon">&#9775;</span>
+        <span class="nav-label">ステータス</span>
+      </button>
+    </nav>
+  </div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
