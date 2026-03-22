@@ -132,141 +132,159 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 52px;
+  width: 58px;
   transform-origin: bottom center;
+  filter: drop-shadow(0 3px 6px rgba(120,60,200,0.35));
 }
 
 /* 顔: 実写写真 */
 .tera-face {
-  width: 44px;
-  height: 44px;
+  width: 46px;
+  height: 46px;
   border-radius: 50%;
   overflow: hidden;
-  border: 3px solid var(--accent);
-  box-shadow: 0 2px 8px rgba(168, 85, 247, 0.5);
+  border: 3px solid #fff;
+  box-shadow: 0 0 0 3px var(--accent);
   background: white;
   flex-shrink: 0;
   z-index: 2;
-  position: relative;
 }
 
 .tera-face img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center 10%;
+  object-position: center 18%;
   display: block;
 }
 
-/* 胴体: 白シャツ */
-.tera-torso {
-  width: 30px;
-  height: 22px;
-  background: #dceeff;
-  border: 2px solid #a8c8f0;
-  border-radius: 5px 5px 3px 3px;
-  margin-top: -5px;
+/* 胴体行: 腕＋胴体＋腕を横並び */
+.tera-body-row {
+  display: flex;
+  align-items: flex-start;
+  margin-top: -4px;
   z-index: 1;
-  position: relative;
-  flex-shrink: 0;
 }
 
-/* 腕 */
-.tera-arms {
+/* 腕（太め・丸め） */
+.arm {
+  width: 13px;
+  height: 26px;
+  background: linear-gradient(180deg, #7c3aed, #6d28d9);
+  border-radius: 7px;
+  transform-origin: top center;
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+
+/* 胴体 */
+.tera-torso {
+  width: 32px;
+  height: 30px;
+  background: linear-gradient(180deg, #8b5cf6, #7c3aed);
+  border-radius: 6px 6px 3px 3px;
+  flex-shrink: 0;
+  position: relative;
+}
+
+/* シャツのボタンライン */
+.tera-torso::after {
+  content: '';
   position: absolute;
-  top: 22px;
+  top: 4px;
   left: 50%;
   transform: translateX(-50%);
-  width: 52px;
-  height: 0;
-  z-index: 0;
+  width: 2px;
+  height: 18px;
+  background: rgba(255,255,255,0.3);
+  border-radius: 1px;
 }
 
-.arm {
-  width: 9px;
-  height: 20px;
-  background: #dceeff;
-  border: 2px solid #a8c8f0;
-  border-radius: 4px;
-  position: absolute;
-  top: 0;
-  transform-origin: top center;
-}
-
-.arm-l { left: 1px; transform: rotate(15deg); }
-.arm-r { right: 1px; transform: rotate(-15deg); }
-
-/* 脚 */
+/* 脚（太め・靴付き） */
 .tera-legs {
   display: flex;
-  gap: 4px;
-  margin-top: 1px;
+  gap: 3px;
+  margin-top: 2px;
 }
 
 .leg {
-  width: 12px;
-  height: 20px;
-  background: #6b7280;
-  border: 1.5px solid #4b5563;
-  border-radius: 4px 4px 6px 6px;
+  width: 15px;
+  height: 22px;
+  background: linear-gradient(180deg, #1e3a8a, #1e40af);
+  border-radius: 4px 4px 0 0;
   transform-origin: top center;
+  position: relative;
+}
+
+/* 靴 */
+.leg::after {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  left: -2px;
+  width: 19px;
+  height: 7px;
+  background: #111827;
+  border-radius: 2px 2px 5px 5px;
 }
 
 /* ===== WALK ANIMATION ===== */
+/* 左腕と右脚が同期、右腕と左脚が同期（自然な歩き） */
 @keyframes body-walk {
-  0%, 100% { transform: translateY(0) rotate(-1deg); }
-  50%       { transform: translateY(-3px) rotate(1deg); }
+  0%, 100% { transform: translateY(0px) rotate(-1.5deg); }
+  50%       { transform: translateY(-4px) rotate(1.5deg); }
 }
 @keyframes arm-l-walk {
-  0%, 100% { transform: rotate(30deg); }
-  50%       { transform: rotate(-30deg); }
+  0%, 100% { transform: rotate(-35deg); }
+  50%       { transform: rotate(35deg); }
 }
 @keyframes arm-r-walk {
-  0%, 100% { transform: rotate(-30deg); }
-  50%       { transform: rotate(30deg); }
+  0%, 100% { transform: rotate(35deg); }
+  50%       { transform: rotate(-35deg); }
 }
 @keyframes leg-l-walk {
-  0%, 100% { transform: rotate(-28deg); }
-  50%       { transform: rotate(28deg); }
+  0%, 100% { transform: rotate(32deg); }
+  50%       { transform: rotate(-32deg); }
 }
 @keyframes leg-r-walk {
-  0%, 100% { transform: rotate(28deg); }
-  50%       { transform: rotate(-28deg); }
+  0%, 100% { transform: rotate(-32deg); }
+  50%       { transform: rotate(32deg); }
 }
 
-.tera-char.walking              { animation: body-walk 0.5s ease-in-out infinite; }
-.tera-char.walking .arm-l       { animation: arm-l-walk 0.5s ease-in-out infinite; }
-.tera-char.walking .arm-r       { animation: arm-r-walk 0.5s ease-in-out infinite; }
-.tera-char.walking .leg-l       { animation: leg-l-walk 0.5s ease-in-out infinite; }
-.tera-char.walking .leg-r       { animation: leg-r-walk 0.5s ease-in-out infinite; }
+.tera-char.walking        { animation: body-walk 0.45s ease-in-out infinite; }
+.tera-char.walking .arm-l { animation: arm-l-walk 0.45s ease-in-out infinite; }
+.tera-char.walking .arm-r { animation: arm-r-walk 0.45s ease-in-out infinite; }
+.tera-char.walking .leg-l { animation: leg-l-walk 0.45s ease-in-out infinite; }
+.tera-char.walking .leg-r { animation: leg-r-walk 0.45s ease-in-out infinite; }
 
 /* ===== FALL ANIMATION ===== */
 @keyframes fall-char {
-  0%   { transform: rotate(0deg); }
-  25%  { transform: rotate(50deg); }
-  45%  { transform: rotate(88deg); }
-  70%  { transform: rotate(88deg); }
-  90%  { transform: rotate(8deg); }
-  100% { transform: rotate(0deg); }
+  0%   { transform: rotate(0deg) translateX(0); }
+  20%  { transform: rotate(40deg) translateX(4px); }
+  45%  { transform: rotate(88deg) translateX(10px); }
+  70%  { transform: rotate(88deg) translateX(10px); }
+  88%  { transform: rotate(6deg) translateX(1px); }
+  100% { transform: rotate(0deg) translateX(0); }
 }
 
 .tera-char.falling { animation: fall-char 2.4s ease-in-out forwards; }
 
 /* ===== DANCE ANIMATION ===== */
 @keyframes dance-char {
-  0%         { transform: translateY(0) rotate(0deg) scale(1); }
-  20%        { transform: translateY(-6px) rotate(8deg) scale(1.1); }
-  40%        { transform: translateY(-6px) rotate(-8deg) scale(1.1); }
-  60%        { transform: translateY(-6px) rotate(8deg) scale(1.1); }
-  80%        { transform: translateY(-6px) rotate(-8deg) scale(1.1); }
-  100%       { transform: translateY(0) rotate(0deg) scale(1); }
+  0%   { transform: translateY(0)   scale(1)    rotate(0deg); }
+  15%  { transform: translateY(-8px) scale(1.15) rotate(10deg); }
+  30%  { transform: translateY(-4px) scale(1.05) rotate(-10deg); }
+  45%  { transform: translateY(-8px) scale(1.15) rotate(10deg); }
+  60%  { transform: translateY(-4px) scale(1.05) rotate(-10deg); }
+  75%  { transform: translateY(-8px) scale(1.15) rotate(5deg); }
+  100% { transform: translateY(0)   scale(1)    rotate(0deg); }
 }
 
-.tera-char.dancing              { animation: dance-char 0.6s ease-in-out 5; }
-.tera-char.dancing .arm-l       { animation: arm-l-walk 0.2s ease-in-out infinite; }
-.tera-char.dancing .arm-r       { animation: arm-r-walk 0.2s ease-in-out infinite; }
-.tera-char.dancing .leg-l       { animation: leg-l-walk 0.2s ease-in-out infinite; }
-.tera-char.dancing .leg-r       { animation: leg-r-walk 0.2s ease-in-out infinite; }
+.tera-char.dancing        { animation: dance-char 0.5s ease-in-out 6; }
+.tera-char.dancing .arm-l { animation: arm-l-walk 0.18s ease-in-out infinite; }
+.tera-char.dancing .arm-r { animation: arm-r-walk 0.18s ease-in-out infinite; }
+.tera-char.dancing .leg-l { animation: leg-l-walk 0.18s ease-in-out infinite; }
+.tera-char.dancing .leg-r { animation: leg-r-walk 0.18s ease-in-out infinite; }
 
 /* STATS PAGE */
 .stats-content {

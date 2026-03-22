@@ -108,21 +108,20 @@ function createIcon() {
     className: 'leaflet-div-icon-tera',
     html: `<div class="tera-char" id="tera-icon">
       <div class="tera-face">
-        <img src="assets/terakawa.webp" alt="テラ川">
+        <img src="assets/face.jpg" alt="テラ川">
       </div>
-      <div class="tera-torso">
-        <div class="tera-arms">
-          <div class="arm arm-l"></div>
-          <div class="arm arm-r"></div>
-        </div>
+      <div class="tera-body-row">
+        <div class="arm arm-l"></div>
+        <div class="tera-torso"></div>
+        <div class="arm arm-r"></div>
       </div>
       <div class="tera-legs">
         <div class="leg leg-l"></div>
         <div class="leg leg-r"></div>
       </div>
     </div>`,
-    iconSize:   [52, 92],
-    iconAnchor: [26, 92],
+    iconSize:   [58, 106],
+    iconAnchor: [29, 106],
   });
 }
 
