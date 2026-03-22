@@ -3,90 +3,97 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <meta name="theme-color" content="#faf5ff">
+  <meta name="theme-color" content="#1a2e0a">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <title>テラ川お散歩MAP</title>
   <link rel="manifest" href="manifest.json">
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div id="app">
-    <header class="app-header">
-      <h1>テラ川お散歩MAP</h1>
-      <div id="gps-status" class="gps-status">GPS待機中...</div>
-    </header>
 
-    <!-- MAP PAGE -->
+    <!-- GAME PAGE -->
     <section class="page active" id="page-map">
-      <div id="map"></div>
-      <div id="speech-bubble" class="speech-bubble"></div>
-      <div class="stats-bar">
-        <div class="stat-item">
-          <span class="stat-val" id="bar-distance">0m</span>
-          <span class="stat-lbl">距離</span>
+      <!-- Phaser canvas goes here -->
+      <div id="game-container"></div>
+
+      <!-- キャラクター (画面中央固定) -->
+      <div id="tera-wrap">
+        <div class="speech-bubble" id="speech-bubble"></div>
+        <div class="tera-char" id="tera-icon">
+          <div class="tera-face">
+            <img src="assets/face.png" alt="テラ川">
+          </div>
+          <div class="tera-body-row">
+            <div class="arm arm-l"></div>
+            <div class="tera-torso"></div>
+            <div class="arm arm-r"></div>
+          </div>
+          <div class="tera-legs">
+            <div class="leg leg-l"></div>
+            <div class="leg leg-r"></div>
+          </div>
         </div>
-        <div class="stat-item">
-          <span class="stat-val" id="bar-steps">0</span>
-          <span class="stat-lbl">歩数</span>
+      </div>
+
+      <!-- GPS状態 -->
+      <div id="gps-badge" class="gps-badge">GPS待機中</div>
+
+      <!-- レベルバッジ -->
+      <div id="level-badge" class="level-badge">テラ川見習い</div>
+
+      <!-- 下部HUD -->
+      <div class="game-hud">
+        <div class="hud-item">
+          <span class="hud-val" id="bar-distance">0m</span>
+          <span class="hud-lbl">距離</span>
         </div>
-        <div class="stat-item">
-          <span class="stat-val" id="bar-time">00:00</span>
-          <span class="stat-lbl">歩行時間</span>
+        <div class="hud-sep"></div>
+        <div class="hud-item">
+          <span class="hud-val" id="bar-steps">0</span>
+          <span class="hud-lbl">歩数</span>
+        </div>
+        <div class="hud-sep"></div>
+        <div class="hud-item">
+          <span class="hud-val" id="bar-time">00:00</span>
+          <span class="hud-lbl">時間</span>
         </div>
       </div>
     </section>
 
     <!-- STATS PAGE -->
     <section class="page" id="page-stats">
-      <div class="stats-content">
+      <div class="stats-scroll">
         <div class="level-card">
           <div class="avatar-circle">
-            <img src="assets/terakawa.webp" alt="テラ川">
+            <img src="assets/face.png" alt="テラ川">
           </div>
           <div class="level-info">
-            <div id="level-title" class="level-title">テラ川見習い</div>
+            <div id="s-level-title" class="s-level-title">テラ川見習い</div>
             <div class="level-bar-wrap">
-              <div id="level-bar" class="level-bar" style="width:0%"></div>
+              <div id="s-level-bar" class="level-bar" style="width:0%"></div>
             </div>
           </div>
         </div>
 
-        <h3 class="section-title">今日の記録</h3>
+        <div class="stats-section-title">今日の記録</div>
         <div class="stats-grid">
-          <div class="stat-card">
-            <span class="stat-label">歩数</span>
-            <span class="stat-value" id="s-steps">0</span>
-          </div>
-          <div class="stat-card">
-            <span class="stat-label">距離</span>
-            <span class="stat-value" id="s-distance">0m</span>
-          </div>
-          <div class="stat-card">
-            <span class="stat-label">歩行時間</span>
-            <span class="stat-value" id="s-time">0分</span>
-          </div>
-          <div class="stat-card">
-            <span class="stat-label">消費カロリー</span>
-            <span class="stat-value" id="s-cal">0kcal</span>
-          </div>
+          <div class="stat-card"><span class="stat-label">歩数</span><span class="stat-value" id="s-steps">0</span></div>
+          <div class="stat-card"><span class="stat-label">距離</span><span class="stat-value" id="s-distance">0m</span></div>
+          <div class="stat-card"><span class="stat-label">歩行時間</span><span class="stat-value" id="s-time">0分</span></div>
+          <div class="stat-card"><span class="stat-label">消費カロリー</span><span class="stat-value" id="s-cal">0kcal</span></div>
         </div>
 
-        <h3 class="section-title">累計記録</h3>
+        <div class="stats-section-title">累計記録</div>
         <div class="stats-grid">
-          <div class="stat-card">
-            <span class="stat-label">総歩数</span>
-            <span class="stat-value" id="s-total-steps">0</span>
-          </div>
-          <div class="stat-card">
-            <span class="stat-label">総距離</span>
-            <span class="stat-value" id="s-total-dist">0m</span>
-          </div>
+          <div class="stat-card"><span class="stat-label">総歩数</span><span class="stat-value" id="s-total-steps">0</span></div>
+          <div class="stat-card"><span class="stat-label">総距離</span><span class="stat-value" id="s-total-dist">0m</span></div>
         </div>
       </div>
     </section>
 
+    <!-- BOTTOM NAV -->
     <nav class="bottom-nav">
       <button class="nav-btn active" data-page="map">
         <span class="nav-icon">&#9716;</span>
@@ -97,9 +104,10 @@
         <span class="nav-label">ステータス</span>
       </button>
     </nav>
+
   </div>
 
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/phaser@3.60.0/dist/phaser.min.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

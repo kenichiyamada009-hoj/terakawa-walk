@@ -1,4 +1,4 @@
-const CACHE = 'terakawa-walk-v3';
+const CACHE = 'terakawa-walk-v4';
 const ASSETS = [
   './',
   './index.html',
