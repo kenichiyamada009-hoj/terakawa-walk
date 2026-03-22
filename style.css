@@ -127,62 +127,146 @@ body {
   color: var(--muted);
 }
 
-/* TERAKAWA CHARACTER ICON */
-.tera-icon-wrap {
-  width: 58px;
-  height: 58px;
+/* ===== TERAKAWA CHIBI CHARACTER ===== */
+.tera-char {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 52px;
+  transform-origin: bottom center;
+}
+
+/* 顔: 実写写真 */
+.tera-face {
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
   overflow: hidden;
   border: 3px solid var(--accent);
-  box-shadow: 0 2px 10px rgba(168, 85, 247, 0.45);
+  box-shadow: 0 2px 8px rgba(168, 85, 247, 0.5);
   background: white;
-  cursor: pointer;
+  flex-shrink: 0;
+  z-index: 2;
+  position: relative;
 }
 
-.tera-icon-wrap img {
+.tera-face img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center top;
+  object-position: center 10%;
   display: block;
 }
 
-/* Walking animation */
-@keyframes walk {
-  0%, 100% { transform: rotate(-4deg) translateY(0); }
-  50%       { transform: rotate(4deg) translateY(-2px); }
+/* 胴体: 白シャツ */
+.tera-torso {
+  width: 30px;
+  height: 22px;
+  background: #dceeff;
+  border: 2px solid #a8c8f0;
+  border-radius: 5px 5px 3px 3px;
+  margin-top: -5px;
+  z-index: 1;
+  position: relative;
+  flex-shrink: 0;
 }
 
-/* Fall animation */
-@keyframes fall {
+/* 腕 */
+.tera-arms {
+  position: absolute;
+  top: 22px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 52px;
+  height: 0;
+  z-index: 0;
+}
+
+.arm {
+  width: 9px;
+  height: 20px;
+  background: #dceeff;
+  border: 2px solid #a8c8f0;
+  border-radius: 4px;
+  position: absolute;
+  top: 0;
+  transform-origin: top center;
+}
+
+.arm-l { left: 1px; transform: rotate(15deg); }
+.arm-r { right: 1px; transform: rotate(-15deg); }
+
+/* 脚 */
+.tera-legs {
+  display: flex;
+  gap: 4px;
+  margin-top: 1px;
+}
+
+.leg {
+  width: 12px;
+  height: 20px;
+  background: #6b7280;
+  border: 1.5px solid #4b5563;
+  border-radius: 4px 4px 6px 6px;
+  transform-origin: top center;
+}
+
+/* ===== WALK ANIMATION ===== */
+@keyframes body-walk {
+  0%, 100% { transform: translateY(0) rotate(-1deg); }
+  50%       { transform: translateY(-3px) rotate(1deg); }
+}
+@keyframes arm-l-walk {
+  0%, 100% { transform: rotate(30deg); }
+  50%       { transform: rotate(-30deg); }
+}
+@keyframes arm-r-walk {
+  0%, 100% { transform: rotate(-30deg); }
+  50%       { transform: rotate(30deg); }
+}
+@keyframes leg-l-walk {
+  0%, 100% { transform: rotate(-28deg); }
+  50%       { transform: rotate(28deg); }
+}
+@keyframes leg-r-walk {
+  0%, 100% { transform: rotate(28deg); }
+  50%       { transform: rotate(-28deg); }
+}
+
+.tera-char.walking              { animation: body-walk 0.5s ease-in-out infinite; }
+.tera-char.walking .arm-l       { animation: arm-l-walk 0.5s ease-in-out infinite; }
+.tera-char.walking .arm-r       { animation: arm-r-walk 0.5s ease-in-out infinite; }
+.tera-char.walking .leg-l       { animation: leg-l-walk 0.5s ease-in-out infinite; }
+.tera-char.walking .leg-r       { animation: leg-r-walk 0.5s ease-in-out infinite; }
+
+/* ===== FALL ANIMATION ===== */
+@keyframes fall-char {
   0%   { transform: rotate(0deg); }
-  20%  { transform: rotate(45deg); }
-  40%  { transform: rotate(90deg) translateY(4px); }
-  70%  { transform: rotate(90deg) translateY(4px); }
-  90%  { transform: rotate(10deg); }
+  25%  { transform: rotate(50deg); }
+  45%  { transform: rotate(88deg); }
+  70%  { transform: rotate(88deg); }
+  90%  { transform: rotate(8deg); }
   100% { transform: rotate(0deg); }
 }
 
-/* Dance animation */
-@keyframes dance {
-  0%   { transform: rotate(0deg) scale(1); }
-  25%  { transform: rotate(90deg) scale(1.25); }
-  50%  { transform: rotate(180deg) scale(1); }
-  75%  { transform: rotate(270deg) scale(1.25); }
-  100% { transform: rotate(360deg) scale(1); }
+.tera-char.falling { animation: fall-char 2.4s ease-in-out forwards; }
+
+/* ===== DANCE ANIMATION ===== */
+@keyframes dance-char {
+  0%         { transform: translateY(0) rotate(0deg) scale(1); }
+  20%        { transform: translateY(-6px) rotate(8deg) scale(1.1); }
+  40%        { transform: translateY(-6px) rotate(-8deg) scale(1.1); }
+  60%        { transform: translateY(-6px) rotate(8deg) scale(1.1); }
+  80%        { transform: translateY(-6px) rotate(-8deg) scale(1.1); }
+  100%       { transform: translateY(0) rotate(0deg) scale(1); }
 }
 
-.tera-icon-wrap.walking {
-  animation: walk 0.55s ease-in-out infinite;
-}
-
-.tera-icon-wrap.falling {
-  animation: fall 2.2s ease-in-out forwards;
-}
-
-.tera-icon-wrap.dancing {
-  animation: dance 0.75s ease-in-out 4;
-}
+.tera-char.dancing              { animation: dance-char 0.6s ease-in-out 5; }
+.tera-char.dancing .arm-l       { animation: arm-l-walk 0.2s ease-in-out infinite; }
+.tera-char.dancing .arm-r       { animation: arm-r-walk 0.2s ease-in-out infinite; }
+.tera-char.dancing .leg-l       { animation: leg-l-walk 0.2s ease-in-out infinite; }
+.tera-char.dancing .leg-r       { animation: leg-r-walk 0.2s ease-in-out infinite; }
 
 /* STATS PAGE */
 .stats-content {

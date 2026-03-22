@@ -106,9 +106,23 @@ function initMap() {
 function createIcon() {
   return L.divIcon({
     className: 'leaflet-div-icon-tera',
-    html: '<div class="tera-icon-wrap" id="tera-icon"><img src="assets/terakawa.webp" alt="テラ川"></div>',
-    iconSize:   [58, 58],
-    iconAnchor: [29, 29],
+    html: `<div class="tera-char" id="tera-icon">
+      <div class="tera-face">
+        <img src="assets/terakawa.webp" alt="テラ川">
+      </div>
+      <div class="tera-torso">
+        <div class="tera-arms">
+          <div class="arm arm-l"></div>
+          <div class="arm arm-r"></div>
+        </div>
+      </div>
+      <div class="tera-legs">
+        <div class="leg leg-l"></div>
+        <div class="leg leg-r"></div>
+      </div>
+    </div>`,
+    iconSize:   [52, 92],
+    iconAnchor: [26, 92],
   });
 }
 
