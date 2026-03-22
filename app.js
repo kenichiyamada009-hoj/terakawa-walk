@@ -541,7 +541,14 @@ function switchPage(name) {
   document.getElementById('page-' + name).classList.add('active');
   document.querySelector('[data-page="' + name + '"]').classList.add('active');
   if (name === 'stats') updateStatsPage();
-  if (name === 'map')   state.scene?.scale.refresh();
+  if (name === 'map') {
+    setTimeout(() => {
+      state.scene?.scale.refresh();
+      state.scene?.drawMap();
+      state.scene?.updateDecoPositions();
+      state.scene?.updatePOIPositions();
+    }, 50);
+  }
 }
 
 // ===== PHASER INIT =====
